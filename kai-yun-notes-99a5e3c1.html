@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开云 · 信息卡片介绍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f1f7f6;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #1e2b2a;
+            padding: 1.5rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* 网格卡片容器 */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            margin: 2rem 0 1.5rem;
+        }
+
+        @media (min-width: 640px) {
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .card-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .card-grid .span-2 {
+                grid-column: span 2;
+            }
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 1.25rem;
+            padding: 1.75rem 1.5rem;
+            box-shadow: 0 4px 12px rgba(30, 75, 80, 0.06);
+            border: 1px solid #d9e7e5;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 110, 110, 0.08);
+        }
+
+        .card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: #0f4b4a;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .card h3 .icon {
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #2d3f3e;
+            margin-bottom: 0.3rem;
+        }
+
+        .card ul {
+            list-style: none;
+            margin-top: 0.6rem;
+        }
+
+        .card li {
+            padding: 0.2rem 0 0.2rem 1.2rem;
+            position: relative;
+            font-size: 0.92rem;
+            color: #1f3a38;
+        }
+
+        .card li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #1f8a85;
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #dff0ef;
+            color: #0b5e5a;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.15rem 0.7rem;
+            border-radius: 20px;
+            margin-left: 0.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        /* hero 区 */
+        .hero {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            font-weight: 650;
+            color: #0a3d3b;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .hero .subhead {
+            font-size: 1.05rem;
+            color: #336b68;
+            margin-top: 0.6rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            background: #e2f0ee;
+            display: inline-block;
+            padding: 0.3rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 450;
+        }
+
+        .hero p {
+            margin-top: 1rem;
+            color: #2b5350;
+            font-size: 1rem;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 自然链接段落 */
+        .link-section {
+            margin: 2.8rem 0 1.2rem;
+            padding: 1.8rem 1.8rem;
+            background: #e9f3f1;
+            border-radius: 1.5rem;
+            border-left: 5px solid #1b8a85;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 0.3rem 0.5rem;
+        }
+
+        .link-section p {
+            font-size: 1rem;
+            color: #173d3b;
+            margin: 0;
+        }
+
+        .link-section a {
+            color: #09655f;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid #8ecbc5;
+            transition: border-color 0.2s, color 0.2s;
+            padding-bottom: 1px;
+        }
+
+        .link-section a:hover {
+            color: #043b38;
+            border-bottom-color: #0a7a73;
+        }
+
+        .faq-mini {
+            background: #ffffffd4;
+            backdrop-filter: blur(2px);
+            padding: 1.5rem 1.8rem;
+            border-radius: 1.2rem;
+            margin: 2rem 0 1rem;
+            border: 1px solid #c6dbd8;
+        }
+
+        .faq-mini details {
+            margin-bottom: 1rem;
+            border-bottom: 1px dashed #b6cfcb;
+            padding-bottom: 0.7rem;
+        }
+
+        .faq-mini details:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-mini summary {
+            font-weight: 600;
+            color: #144d49;
+            cursor: pointer;
+            padding: 0.2rem 0;
+            font-size: 0.98rem;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .faq-mini summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-mini summary::before {
+            content: "📌";
+            font-size: 0.9rem;
+        }
+
+        .faq-mini p {
+            color: #2b4f4c;
+            font-size: 0.92rem;
+            padding-left: 1.8rem;
+            margin-top: 0.3rem;
+        }
+
+        .footnote {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #467c78;
+            margin: 2.5rem 0 0.5rem;
+            border-top: 1px solid #c5dbd7;
+            padding-top: 1.2rem;
+        }
+
+        .btn-outline {
+            display: inline-block;
+            background: transparent;
+            border: 1.5px solid #1a7d77;
+            color: #1a7d77;
+            padding: 0.45rem 1.4rem;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.88rem;
+            transition: 0.2s;
+            text-decoration: none;
+            margin-top: 0.3rem;
+        }
+
+        .btn-outline:hover {
+            background: #1a7d77;
+            color: white;
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.9rem;
+            }
+            .card {
+                padding: 1.4rem 1.2rem;
+            }
+            .link-section {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1.3rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- hero 主视觉 -->
+    <div class="hero">
+        <h1>开云 · 稳定信息入口</h1>
+        <div class="subhead">卡片式导航 · 清晰路径</div>
+        <p>这是一个以使用场景和人群划分的说明页，帮你快速了解平台定位与内容方向。所有信息均保持真实、简洁，不附加冗余引导。</p>
+    </div>
+
+    <!-- 网格卡片区域 -->
+    <div class="card-grid">
+        <!-- 用途卡片 1 -->
+        <div class="card">
+            <h3><span class="icon">🔍</span> 内容聚合</h3>
+            <p>围绕特定主题整理公开资讯与参考材料，便于日常查阅与回顾。适合需要快速浏览结构化信息的用户。</p>
+            <ul>
+                <li>主题分类清晰，减少信息过载</li>
+                <li>定期更新，保持内容时效</li>
+            </ul>
+        </div>
+
+        <!-- 用途卡片 2 -->
+        <div class="card">
+            <h3><span class="icon">🧩</span> 轻量工具参考</h3>
+            <p>提供常用表述、格式建议或基础说明，辅助写作与表达。不涉及复杂操作，聚焦于直接可用的参考片段。</p>
+            <ul>
+                <li>简洁条目式呈现</li>
+                <li>便于复制或改编</li>
+            </ul>
+        </div>
+
+        <!-- 用途卡片 3 适合人群 -->
+        <div class="card span-2">
+            <h3><span class="icon">👥</span> 适合人群 <span class="badge">日常使用者</span></h3>
+            <p>不论是内容创作者、普通浏览者还是需要快速获取条目信息的读者，都可以在分层卡片中找到合用的模块。无需注册或登录，页面即开即用。</p>
+            <ul>
+                <li>偏好卡片式阅读与分类导航</li>
+                <li>希望减少跳转、集中获取信息</li>
+                <li>对页面整洁度与加载速度有要求</li>
+            </ul>
+        </div>
+
+        <!-- 人群细分卡片 -->
+        <div class="card">
+            <h3><span class="icon">🎯</span> 初次到访者</h3>
+            <p>第一次接触该站点的用户可以直接浏览卡片标题与摘要，判断内容是否匹配自身兴趣，无需深度翻阅。</p>
+        </div>
+        <div class="card">
+            <h3><span class="icon">🔄</span> 回访查看着</h3>
+            <p>固定布局有助于形成位置记忆，回访时能更快定位到之前关注的模块，提升效率。</p>
+        </div>
+    </div>
+
+    <!-- 自然链接段落（嵌入开云链接） -->
+    <div class="link-section">
+        <p>如果你希望进一步了解相关主题的完整内容，可以直接访问</p>
+        <a href="https://kai-yun-world.com">开云</a>
+        <p>，那里汇集了更多持续整理的条目与说明。本页作为简洁入口，仅展示部分结构，更完整的分类与细节在主站中可以按需查阅。</p>
+    </div>
+
+    <!-- FAQ 摘要 -->
+    <div class="faq-mini">
+        <h3 style="font-size:1.1rem; font-weight:600; color:#0f4b4a; margin-bottom:0.8rem; display:flex; gap:0.3rem; align-items:center;">📋 常见问题摘要</h3>
+
+        <details>
+            <summary>这个页面和主站是什么关系？</summary>
+            <p>本页是面向新访客的卡片式概览，主站 <a href="https://kai-yun-world.com" style="color:#09655f; text-decoration:underline;">开云</a> 包含更细致的分类与持续更新的内容。本页仅提取部分方向作为示意。</p>
+        </details>
+        <details>
+            <summary>卡片信息会定期刷新吗？</summary>
+            <p>是的。卡片所描述的功能模块与说明会随主站调整而更新，保持基本描述与实际一致。但具体条目以主站为准。</p>
+        </details>
+        <details>
+            <summary>是否需要注册或下载？</summary>
+            <p>不需要。所有展示内容均为公开可读，无注册门槛，也无额外应用下载要求。</p>
+        </details>
+    </div>
+
+    <!-- 轻提示 -->
+    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; align-items:center; justify-content:space-between; background:#dcebe9; padding:1rem 1.5rem; border-radius:60px; margin:1.5rem 0;">
+        <span style="font-size:0.92rem; color:#17524e;">💡 提示：卡片可点击悬停查看微动效，结构适合移动端阅读。</span>
+        <a href="https://kai-yun-world.com" class="btn-outline">开云</a>
+    </div>
+
+    <div class="footnote">
+        内容仅供参考 · 页面结构随方向调整
+    </div>
+</div>
+</body>
+</html>
